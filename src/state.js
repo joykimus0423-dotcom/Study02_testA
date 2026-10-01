@@ -82,6 +82,43 @@
     return todos.slice(0, i).concat([todo], todos.slice(i));
   }
 
+  function todosForDate(todos, date) {
+    return todos.filter(function (t) { return t.date === date; });
+  }
+
+  function filterByCategory(list, category) {
+    if (category === 'all') return list;
+    return list.filter(function (t) { return t.category === category; });
+  }
+
+  function progress(list) {
+    var done = list.filter(function (t) { return t.done; }).length;
+    var total = list.length;
+    return { done: done, total: total, percent: total === 0 ? 0 : Math.round((done / total) * 100) };
+  }
+
+  function progressByCategory(todos, date) {
+    var day = todosForDate(todos, date);
+    var result = {};
+    CATEGORIES.forEach(function (c) {
+      result[c] = progress(filterByCategory(day, c));
+    });
+    return result;
+  }
+
+  function carryOver(todos, fromDate) {
+    var toDate = shiftDate(fromDate, 1);
+    var moved = 0;
+    var next = todos.map(function (t) {
+      if (t.date === fromDate && !t.done) {
+        moved += 1;
+        return Object.assign({}, t, { date: toDate });
+      }
+      return t;
+    });
+    return { todos: moved ? next : todos, moved: moved };
+  }
+
   global.TodoState = {
     CATEGORIES: CATEGORIES,
     CATEGORY_LABELS: CATEGORY_LABELS,
@@ -94,6 +131,11 @@
     toggleTodo: toggleTodo,
     updateTodo: updateTodo,
     removeTodo: removeTodo,
-    restoreTodo: restoreTodo
+    restoreTodo: restoreTodo,
+    todosForDate: todosForDate,
+    filterByCategory: filterByCategory,
+    progress: progress,
+    progressByCategory: progressByCategory,
+    carryOver: carryOver
   };
 })(window);

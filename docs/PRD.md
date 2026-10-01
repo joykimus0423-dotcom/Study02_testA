@@ -116,7 +116,7 @@
 
 ## 7. 기술 구성
 
-- 파일: `index.html`, `style.css`, `src/state.js`, `src/storage.js`, `src/view.js`, `src/app.js` (프레임워크·번들러·외부 의존성 없음). `file://`로 열어도 동작하도록 ES 모듈 대신 일반 `<script>` 태그를 의존 순서대로 로드한다.
+- 파일: `index.html`(마크업과 `<style>` 태그의 스타일), `src/state.js`, `src/storage.js`, `src/view.js`, `src/app.js` (프레임워크·번들러·외부 의존성 없음). `file://`로 열어도 동작하도록 ES 모듈 대신 일반 `<script>` 태그를 의존 순서대로 로드한다.
 - 코드는 세 가지 책임으로 나눈다.
   - **저장소(storage)**: `load()`, `save(todos)` — localStorage 입출력과 버전·오류 처리만 담당
   - **상태(state)**: 할 일 CRUD, 날짜별·카테고리별 조회, 진행률 계산, 이월 — DOM을 알지 못하는 순수 로직

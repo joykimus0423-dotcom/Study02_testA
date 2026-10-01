@@ -47,8 +47,7 @@ Node 없이 브라우저에서 실행합니다. 서버를 띄운 뒤 `http://loc
 ## 프로젝트 구조
 
 ```
-index.html        마크업과 스크립트 로드 순서
-style.css         레이아웃, 카테고리 색상, 반응형
+index.html        마크업, 스타일(<style> 태그), 스크립트 로드 순서
 src/
   state.js        순수 로직 (날짜, 추가·수정·삭제, 조회, 진행률, 이월)
   storage.js      localStorage 입출력, 버전·손상 처리

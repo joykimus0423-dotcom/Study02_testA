@@ -4,7 +4,128 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>할 일 관리</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --bg: #f5f6f8;
+      --card: #ffffff;
+      --text: #1f2933;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --accent: #2563eb;
+      --done: #9ca3af;
+      --work: #2563eb;
+      --personal: #16a34a;
+      --study: #d97706;
+    }
+
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+      line-height: 1.5;
+    }
+
+    .app { max-width: 640px; margin: 0 auto; padding: 16px; }
+
+    .app-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+    .app-header h1 { margin: 0; font-size: 1.4rem; }
+    .date-nav { display: flex; align-items: center; gap: 6px; }
+
+    button, select, input { font: inherit; }
+    button {
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--card);
+      color: var(--text);
+      cursor: pointer;
+    }
+    button:disabled { opacity: 0.5; cursor: default; }
+    input[type="text"], input[type="date"], select {
+      padding: 6px 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--card);
+      color: var(--text);
+    }
+
+    .notice {
+      margin: 12px 0 0;
+      padding: 8px 12px;
+      border-radius: 6px;
+      background: #fef3c7;
+      color: #78350f;
+    }
+
+    .progress { margin-top: 16px; padding: 12px 16px; border-radius: 8px; background: var(--card); }
+    .progress-text { margin: 0 0 8px; font-weight: 600; }
+    .bar { height: 10px; border-radius: 999px; background: var(--line); overflow: hidden; }
+    .bar-small { height: 6px; }
+    .bar-fill { height: 100%; width: 0; background: var(--accent); transition: width 0.2s; }
+    .category-progress {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .cat-label { display: block; margin-bottom: 4px; font-size: 0.85rem; color: var(--muted); }
+    .cat-work .bar-fill { background: var(--work); }
+    .cat-personal .bar-fill { background: var(--personal); }
+    .cat-study .bar-fill { background: var(--study); }
+
+    .add-form { display: flex; gap: 8px; margin-top: 16px; }
+    .add-form input[type="text"] { flex: 1; min-width: 0; }
+
+    .filter-tabs { display: flex; gap: 6px; margin-top: 16px; }
+    .filter-tabs button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .todo-list { margin: 12px 0 0; padding: 0; list-style: none; }
+    .todo-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: var(--card);
+    }
+    .todo-item .title { flex: 1; min-width: 0; cursor: text; word-break: break-word; }
+    .todo-item.done .title { color: var(--done); text-decoration: line-through; }
+    .edit-title { flex: 1; min-width: 0; }
+    .item-category.cat-work { background: #dbeafe; color: #1e3a8a; }
+    .item-category.cat-personal { background: #dcfce7; color: #14532d; }
+    .item-category.cat-study { background: #fef3c7; color: #78350f; }
+
+    .empty { margin: 16px 0; text-align: center; color: var(--muted); }
+    .actions { margin-top: 16px; text-align: right; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: calc(100% - 32px);
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: #1f2933;
+      color: #fff;
+    }
+
+    @media (max-width: 480px) {
+      .add-form { flex-wrap: wrap; }
+      .add-form input[type="text"] { flex-basis: 100%; }
+      .category-progress { gap: 8px; }
+    }
+  </style>
 </head>
 <body>
   <main class="app">

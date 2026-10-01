@@ -23,6 +23,10 @@
       assertEqual(TodoState.isValidDate('abc'), false);
       assertEqual(TodoState.isValidDate(null), false);
     });
+    it('today는 formatDate(new Date())와 같은 형식이다', function () {
+      assertTrue(/^\d{4}-\d{2}-\d{2}$/.test(TodoState.today()));
+      assertTrue(TodoState.isValidDate(TodoState.today()));
+    });
   });
 
   describe('addTodo', function () {
